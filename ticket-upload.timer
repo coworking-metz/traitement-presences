@@ -1,0 +1,7 @@
+[Unit]
+Description=Run ticket upload service each day at 22:15
+
+[Timer]
+OnCalendar=*-*-* 22:15:00
+[Install]
+WantedBy=timers.target
