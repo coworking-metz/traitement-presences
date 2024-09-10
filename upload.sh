@@ -6,11 +6,16 @@ source "${BASE_DIR}/base.sh"
 
 DATE=$1
 DATE=${DATE:=$(date -Idate)}
-echo "Uploading presences for $DATE"
+echo "Handling presences for $DATE"
 
 
 PRESENCES_FILE="${TMP_DIR}/${DATE}"
 > "${PRESENCES_FILE}"
+
+
+echo " - Fetching probes from S3"
+rm -rf ${PROBES_DIR}
+rclone copy --include "*/${DATE}" ovh:coworking-metz/presences/ ${PROBES_DIR}
 
 echo " - Handling locations"
 cd ${PROBES_DIR}
