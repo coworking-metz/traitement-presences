@@ -4,6 +4,7 @@
 
 - ssh
 - curl pour l'envoi sur le front
+- rclone pour recupérer les fichiers de probes
 - systemD pour la gestion des services
 
 [Aide sur les timer systemD](https://wiki.archlinux.org/index.php/Systemd/Timers)
@@ -61,3 +62,5 @@ systemctl start ticket-upload.timer
 - upload : tous les jours à 22:15:00
 
 Le lan est hardcodé dans le script probe.sh
+
+
