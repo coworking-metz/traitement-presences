@@ -3,7 +3,7 @@ Description=Envoi des presences sur ticket
 
 [Service]
 Type=oneshot
-ExecStart=/opt/traitement-presences/upload.sh
+ExecStart=/home/ubuntu/traitement-presences/upload.sh
 
 [Install]
 WantedBy=multi-user.target
