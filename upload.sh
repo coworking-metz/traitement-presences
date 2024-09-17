@@ -14,7 +14,6 @@ PRESENCES_FILE="${TMP_DIR}/${DATE}"
 
 
 echo " - Fetching probes from S3"
-rm -rf ${PROBES_DIR}
 rclone copy --include "*/${DATE}" ovh:coworking-metz/presences/ ${PROBES_DIR}
 
 echo " - Handling locations"

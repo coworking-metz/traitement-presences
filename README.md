@@ -4,7 +4,7 @@
 
 - ssh
 - curl pour l'envoi sur le front
-- rclone pour recupérer les fichiers de probes
+- rclone pour recupérer les fichiers de probes. Configuration dans [BitWarden](https://vault.bitwarden.com/#/vault?search=rc&itemId=6b663eae-c1bf-4d06-84e7-b1e700e83661)
 - systemD pour la gestion des services
 
 [Aide sur les timer systemD](https://wiki.archlinux.org/index.php/Systemd/Timers)
