@@ -36,7 +36,12 @@ for item in *; do
     fi
 done
 
+sed -i 's/[ \t]\+/\t/g' ${PRESENCES_FILE}
+
+sort "${PRESENCES_FILE}" -o "${PRESENCES_FILE}"
+
 echo " - Uploading presences"
+
 ${BASE_DIR}/presences.sh "${PRESENCES_FILE}" "${TSV_FILE}" |
 while read email amount;
 do
