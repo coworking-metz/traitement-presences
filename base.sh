@@ -24,3 +24,10 @@ if [ ! -s "$TSV_FILE" ]; then
     echo "Error:Unable to fetch MAC addresses from the API."
     exit 1
 fi
+
+
+declare -A mac_address_list
+while IFS=$'\t' read -ra line; do
+    mac="${line[0]}"
+    mac_address_list["$mac"]=1
+done < "${TSV_FILE}"
