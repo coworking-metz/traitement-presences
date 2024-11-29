@@ -36,10 +36,14 @@ for item in *; do
     fi
 done
 
+
+sort "${PRESENCES_FILE}" -o "${PRESENCES_FILE}"
+
 echo " - Uploading presences"
 ${BASE_DIR}/presences.sh "${PRESENCES_FILE}" "${TSV_FILE}" |
 while read email amount;
 do
+
     PAYLOAD="email=${email}&date=${DATE}&amount=${amount}"
     STATUS=$(curl -q -s -d "key=${TICKET_BACKEND_TOKEN}&${PAYLOAD}" "${TICKET_BACKEND_URL}/api/presence")
     
