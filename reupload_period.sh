@@ -3,12 +3,17 @@
 # Default values
 START_DATE=""
 END_DATE=""
-all_continue="false"
+CONTINUE_ALL="false"
+ASK_USER=true
 
 # Parse command line arguments for start and end dates
 for i in "$@"
 do
 case $i in
+    -y|--yes)
+    ASK_USER=false
+    shift # past argument=value
+    ;;
     --start=*)
     START_DATE="${i#*=}"
     shift # past argument=value
@@ -37,7 +42,7 @@ fi
 
 # Display start and end dates and ask for confirmation
 echo "This script will reupload all presences from $START_DATE to $END_DATE."
-read -p "Continue with these dates? (Y/n) " response
+$ASK_USER && read -p "Continue with these dates? (Y/n) " response
 
 if [[ "$response" =~ ^[Nn]$ ]]
 then
@@ -52,15 +57,15 @@ else
 	./upload.sh "$current_date"
 	current_date=$(date -I -d "$current_date + 1 day")
 	if [ "$current_date" != "$(date -I -d "$END_DATE + 1 day")" ]; then
-		if [ "$all_continue" != "true" ]; then
-			read -p "Continue with $current_date ? (Y=yes, a=yes to all, n=no) [Y/a/n]: " response
+		if [ "$CONTINUE_ALL" != "true" ]; then
+			$ASK_USER && read -p "Continue with $current_date ? (Y=yes, a=yes to all, n=no) [Y/a/n]: " response
 			case $response in
 			  [Nn])
 			    echo "Operation aborted."
 			    exit 0
 			    ;;
 			  a)
-			    all_continue="true"
+			    CONTINUE_ALL="true"
 			    ;;
 			  *)
 			    # Default to continue
@@ -70,4 +75,7 @@ else
 	fi
     done
 fi
+
+
 echo "All uploads from $START_DATE to $END_DATE terminated"
+exit 0
