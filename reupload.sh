@@ -4,6 +4,17 @@ BASE_DIR=$(realpath "$(dirname "$0")")
 
 MAC=$1
 PERIOD=$2
+PURGE=false
+
+# Process options, allowing -p or --purge to appear anywhere
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    -p|--purge)
+      PURGE=true
+      ;;
+  esac
+  shift
+done
 
 echo "##################################################################"
 echo "# This script will find presences in the log for a given MAC     #"
@@ -93,15 +104,19 @@ else
 fi
 rm -rf "$MAC_DIR"
 
-echo "The script as ended"
-echo "Do you want to delete the temporary log files folder?"
-echo "This folder is only used for the reupload.sh script,"
-read -p "it takes some disk space and is not used by the daily upload.sh script (y/N) " response
+echo "The script has ended"
+if [[ $PURGE == false ]]; then
+    echo "Do you want to delete the temporary log files folder?"
+    echo "This folder is only used for the reupload.sh script,"
+    read -p "it takes some disk space and is not used by the daily upload.sh script (y/N) " response
 
-if [[ $response == "Y" || $response == "y" ]]; then
+fi
+
+if [[ $PURGE == true || $response == "Y" || $response == "y" ]]; then
     # Proceed with deleting the directory and its contents
     rm -rf "$MACS_PROBES_DIR"
     echo "Folder and contents deleted."
 fi
+
 
 exit 0
