@@ -12,11 +12,10 @@ echo "Handling presences for $DATE"
 PRESENCES_FILE="${TMP_DIR}/${DATE}"
 > "${PRESENCES_FILE}"
 
-
 echo " - Fetching probes from S3"
 rclone copy --include "*/${DATE}" ovh:coworking-metz/presences/ ${PROBES_DIR}
 
-echo " - Handling locations"
+echo " - Handling locations probes"
 cd ${PROBES_DIR}
 # Loop through each item in the current directory
 for item in *; do
@@ -30,8 +29,13 @@ for item in *; do
                 if [ -f "$PROBE_FILE_DATE" ]; then
                         #cat "${PROBE_FILE_DATE}" >> "${PRESENCES_FILE}"
                         I=0
+                        CUR=0
+                        TOTAL_LINES=$(wc -l < "$PROBE_FILE_DATE")
                         # Read each line from the file
                         while IFS=$'\t ' read -ra line; do
+                                echo -ne "\r   $CUR/$TOTAL_LINES\033[K"
+                                CUR=$((CUR+1))
+
                                 timestamp="${line[0]:0:22}"
                                 mac_address="${line[1]}"
                                 # Check if the MAC address exists in the mac_address_list
@@ -42,7 +46,8 @@ for item in *; do
                                 echo "$timestamp        $mac_address" >> "${PRESENCES_FILE}"
                                 I=$((I+1))
                         done < "${PROBE_FILE_DATE}"
-                        echo "  - ${I} known presences found in $LOCATION"
+                        echo ""
+                        echo "   - ${I} known presences found in $LOCATION"
 
                 else
                         echo "  - No known presences found in $LOCATION"
