@@ -3,11 +3,29 @@
 BASE_DIR=$(realpath "$(dirname "$0")")
 source "${BASE_DIR}/base.sh"
 
+PROGRESS=false
+DATE=false
 
-DATE=$1
+# Parse command line arguments for start and end dates
+for i in "$@"
+do
+case $i in
+    -p|--progress)
+    PROGRESS=true
+    shift # past argument=value
+    ;;
+    --date=*)
+    DATE="${i#*=}"
+    shift # past argument=value
+    ;;
+esac
+done
+
 DATE=${DATE:=$(date -Idate)}
 echo "Handling presences for $DATE"
-
+if [ -z "$JSON_CONTENT" ]; then
+        echo "See progress using --progress"
+fi
 
 PRESENCES_FILE="${TMP_DIR}/${DATE}"
 > "${PRESENCES_FILE}"
@@ -27,7 +45,7 @@ for item in *; do
 
                 PROBE_FILE_DATE="${PROBES_DIR}/${LOCATION}/${DATE}"
                 if [ -f "$PROBE_FILE_DATE" ]; then
-                        #cat "${PROBE_FILE_DATE}" >> "${PRESENCES_FILE}"
+                        $PROGRESS && cat "${PROBE_FILE_DATE}" >> "${PRESENCES_FILE}"
                         I=0
                         CUR=0
                         TOTAL_LINES=$(wc -l < "$PROBE_FILE_DATE")
@@ -46,7 +64,7 @@ for item in *; do
                                 echo "$timestamp        $mac_address" >> "${PRESENCES_FILE}"
                                 I=$((I+1))
                         done < "${PROBE_FILE_DATE}"
-                        echo ""
+                        $PROGRESS && echo ""
                         echo "   - ${I} known presences found in $LOCATION"
 
                 else

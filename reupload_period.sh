@@ -56,7 +56,7 @@ else
 	echo "================================================================"
 	echo " - Uploading for $(date -d "$current_date" '+%A') $current_date"
 	echo "================================================================"
-	"${BASE_DIR}/upload.sh" "$current_date"
+	"${BASE_DIR}/upload.sh" "--date=$current_date"
 	current_date=$(date -I -d "$current_date + 1 day")
 	if [ "$current_date" != "$(date -I -d "$END_DATE + 1 day")" ]; then
 		if [ "$CONTINUE_ALL" != "true" ]; then
