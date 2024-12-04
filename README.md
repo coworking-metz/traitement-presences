@@ -23,22 +23,26 @@ git clone https://gitlab.com/coworking-metz/traitement-presences.git
 ```
 2 On set les droits d'exécution
 ```
-chmod +x /opt/presences/presences.sh
-chmod +x /opt/presences/upload.sh
-chmod +x /opt/presences/reupload.sh
+chmod +x /opt/traitement-presences/presences.sh
+chmod +x /opt/traitement-presences/upload.sh
+chmod +x /opt/traitement-presences/reupload.sh
 ```
 2 On crée les liens symboliques pour les timers et les services
 ```
-ln -s /opt/presences/ticket-upload.timer /etc/systemd/system
-ln -s /opt/presences/ticket-upload.service /etc/systemd/system
+ln -s /opt/traitement-presences/ticket-upload.timer /etc/systemd/system
+ln -s /opt/traitement-presences/ticket-upload.service /etc/systemd/system
+ln -s /opt/traitement-presences/ticket-flags.timer /etc/systemd/system
+ln -s /opt/traitement-presences/ticket-flags.service /etc/systemd/system
 ```
 3 On active les timers
 ```
 systemctl enable ticket-upload.timer
+systemctl enable ticket-flags.timer
 ```
 4 On démarre les timers
 ```
 systemctl start ticket-upload.timer
+systemctl start ticket-flags.timer
 ```
 
 ## Citation Source
@@ -54,11 +58,11 @@ systemctl start ticket-upload.timer
 
  /!\ Les dossier d'instalation ont changé depuis la citation
 
- - Dossier d'install : '/opt/presences/'
+ - Dossier d'install : '/opt/traitement-presences/'
  - Dossier des services : '/etc/systemd/system'
 
-3 timer réglés sur :
-- probe : toute les minutes
+2 timer réglés sur :
+- flags : toute les 5 secondes
 - upload : tous les jours à 22:15:00
 
 Le lan est hardcodé dans le script probe.sh
