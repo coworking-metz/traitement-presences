@@ -1,0 +1,9 @@
+[Unit]
+Description=Traitement des flags
+
+[Service]
+Type=oneshot
+ExecStart=/home/ubuntu/traitement-presences/flags.sh
+
+[Install]
+WantedBy=multi-user.target
