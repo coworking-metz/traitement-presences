@@ -2,18 +2,7 @@
 
 BASE_DIR=$(realpath "$(dirname "$0")")
 source "${BASE_DIR}/base.sh"
-VERBOSE=true
 
-
-# Parse command line arguments for start and end dates
-for i in "$@"
-do
-case $i in
-    -s|--silent)
-    VERBOSE=false
-    ;;
-esac
-done
 
 DATE=$1
 DATE=${DATE:=$(date -Idate)}
@@ -44,7 +33,7 @@ for item in *; do
                         TOTAL_LINES=$(wc -l < "$PROBE_FILE_DATE")
                         # Read each line from the file
                         while IFS=$'\t ' read -ra line; do
-                                $VERBOSE && echo -ne "\r   $CUR/$TOTAL_LINES\033[K"
+                                # echo -ne "\r   $CUR/$TOTAL_LINES\033[K"
                                 CUR=$((CUR+1))
 
                                 timestamp="${line[0]:0:22}"
