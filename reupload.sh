@@ -45,6 +45,7 @@ source "${BASE_DIR}/base.sh"
 
 
 MAC_DIR="${TMP_DIR}/MAC"
+sudo rm -rf "${MAC_DIR}"
 mkdir -p "${MAC_DIR}"
 
 echo "Fetching log files from s3"
@@ -102,7 +103,7 @@ if [ $NB_PRESENCES -eq 0 ]; then
 else
     echo "${NB_PRESENCES} presence(s) uploaded for the given MAC address"
 fi
-rm -rf "$MAC_DIR"
+sudo rm -rf "$MAC_DIR"
 
 echo "The script has ended"
 if [[ $PURGE == false ]]; then
@@ -114,7 +115,7 @@ fi
 
 if [[ $PURGE == true || $response == "Y" || $response == "y" ]]; then
     # Proceed with deleting the directory and its contents
-    rm -rf "$MACS_PROBES_DIR"
+    sudo rm -rf "$MACS_PROBES_DIR"
     echo "Folder and contents deleted."
 fi
 

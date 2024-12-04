@@ -73,6 +73,6 @@ do
         fi
 done
 
-rm "${PRESENCES_FILE}"
+sudo rm "${PRESENCES_FILE}"
 
 exit 0
