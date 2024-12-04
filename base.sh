@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Ensure the script is run as root or with sudo
+if [ "$EUID" -ne 0 ]; then
+    echo "Error: This script must be run with sudo or as root."
+    exit 1
+fi
+
 BASE_DIR=$(realpath "$(dirname "$0")")
 LOG_DIR="${BASE_DIR}/logs"
 TMP_DIR="${BASE_DIR}/tmp"
