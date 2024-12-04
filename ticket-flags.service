@@ -4,6 +4,3 @@ Description=Traitement des flags
 [Service]
 Type=oneshot
 ExecStart=/opt/traitement-presences/flags.sh
-
-[Install]
-WantedBy=multi-user.target
