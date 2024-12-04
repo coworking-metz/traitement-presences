@@ -1,9 +1,8 @@
 [Unit]
-Description=Run flags service every 5 seconds
+Description=Run flags service every minute
 
 [Timer]
-OnUnitActiveSec=5s
-AccuracySec=1s
+OnCalendar=*:0/01
 
 [Install]
 WantedBy=timers.target
