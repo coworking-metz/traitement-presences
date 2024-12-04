@@ -45,13 +45,13 @@ for item in *; do
 
                 PROBE_FILE_DATE="${PROBES_DIR}/${LOCATION}/${DATE}"
                 if [ -f "$PROBE_FILE_DATE" ]; then
-                        $PROGRESS && cat "${PROBE_FILE_DATE}" >> "${PRESENCES_FILE}"
+                        # cat "${PROBE_FILE_DATE}" >> "${PRESENCES_FILE}"
                         I=0
                         CUR=0
                         TOTAL_LINES=$(wc -l < "$PROBE_FILE_DATE")
                         # Read each line from the file
                         while IFS=$'\t ' read -ra line; do
-                                # echo -ne "\r   $CUR/$TOTAL_LINES\033[K"
+                                $PROGRESS && echo -ne "\r   $CUR/$TOTAL_LINES\033[K"
                                 CUR=$((CUR+1))
 
                                 timestamp="${line[0]:0:22}"
