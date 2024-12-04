@@ -85,7 +85,7 @@ for FILE in "$FLAGS_DIR"/*; do
             echo $CMD
         fi        
         if [ "$SLUG" == "presences-day" ]; then 
-            CMD="$BASE_DIR/upload.sh" 
+            CMD="$BASE_DIR/upload.sh -s" 
             echo $CMD
         fi        
         if [ -z "$CMD" ]; then
