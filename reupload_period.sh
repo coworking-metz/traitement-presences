@@ -29,14 +29,14 @@ esac
 done
 
 # Check if start date is provided
-if [ -z "$START_DATE" ]; then
+if [ -z "$START_DATE" ] || [ "$START_DATE" = "null" ]; then
     echo "Error: No start date provided."
     echo "Usage: $0 --start=YYYY-MM-DD [--end=YYYY-MM-DD]"
     exit 1
 fi
 
-# Default end date to yesterday if not provided
-if [ -z "$END_DATE" ]; then
+# Default end date to yesterday if not provided or explicitly set to "null"
+if [ -z "$END_DATE" ] || [ "$END_DATE" = "null" ]; then
     END_DATE=$(date -d "yesterday" '+%Y-%m-%d')
 fi
 
