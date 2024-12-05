@@ -3,4 +3,4 @@ Description=Traitement des flags
 
 [Service]
 Type=oneshot
-ExecStart=/opt/traitement-presences/flags-loop.sh
+ExecStart=/opt/traitement-presences/utils/flags-loop.sh

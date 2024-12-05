@@ -13,6 +13,7 @@ if [[ "$1" == '--' ]]; then shift; fi
 
 BASE_DIR=$(realpath "$(dirname "$0")")
 source "${BASE_DIR}/.env"
+source "${BASE_DIR}/lib/functions.sh"
 
 # Vérifier si jq est installé
 if ! command -v jq &> /dev/null; then
@@ -21,9 +22,8 @@ if ! command -v jq &> /dev/null; then
 fi
 
 # Retenir seulement les 10 derniers fichiers par date
-$VERBOSE && echo "🔍 Suppression des anciens flags, en gardant les 10 plus récents..."
-find "$FLAGS_DIR" -type f | sort -r | tail -n +11 | while read OLD_FILE; do
-    $VERBOSE && echo " 🗑️ Suppression de $OLD_FILE"
+$VERBOSE && echo "🗑️ Suppression des anciens flags"
+find "$FLAGS_DIR" -type f | sort -r | tail -n +51 | while read OLD_FILE; do
     rm -f "$OLD_FILE"
 done
 
@@ -69,33 +69,16 @@ for FILE in "$FLAGS_DIR"/*; do
         # Créer un fichier nommé [nom du fichier].stream
         touch "$STREAM_FILE"
         
-        if [ "$SLUG" == "presences-mac" ]; then 
-            MAC=$(echo "$JSON_CONTENT" | jq -r '.mac' 2>/dev/null)
-            PERIOD=$(echo "$JSON_CONTENT" | jq -r '.period' 2>/dev/null)
-
-            CMD="$BASE_DIR/reupload.sh $MAC $PERIOD --purge" 
-        fi
         
-        if [ "$SLUG" == "presences-mac" ]; then 
-            MAC=$(echo "$JSON_CONTENT" | jq -r '.mac' 2>/dev/null)
-            PERIOD=$(echo "$JSON_CONTENT" | jq -r '.period' 2>/dev/null)
-
-            CMD="$BASE_DIR/reupload.sh $MAC $PERIOD --purge" 
-        fi
-
-        if [ "$SLUG" == "presences-daterange" ]; then 
-            DATE_START=$(echo "$JSON_CONTENT" | jq -r '.start' 2>/dev/null)
-            DATE_END=$(echo "$JSON_CONTENT" | jq -r '.end' 2>/dev/null)
-
-            CMD="$BASE_DIR/reupload_period.sh --start=$DATE_START --end=$DATE_END -y" 
-            # echo $CMD
+        if [ "$SLUG" == "presences-mac" ]; then
+            CMD=$(process_presences_mac "$JSON_CONTENT")
+        elif [ "$SLUG" == "presences-daterange" ]; then
+            CMD=$(process_presences_daterange "$JSON_CONTENT")
+        elif [ "$SLUG" == "presences-day" ]; then
+            CMD=$(process_presences_day)
+        else
+            $VERBOSE && echo "❌ Commande inconnue: $SLUG."
         fi        
-        
-        if [ "$SLUG" == "presences-day" ]; then 
-            CMD="$BASE_DIR/upload.sh" 
-            # echo $CMD
-        fi        
-        
         if [ -z "$CMD" ]; then
             $VERBOSE && echo "❌ Commande inconnue: $SLUG."
         else

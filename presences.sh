@@ -1,10 +1,10 @@
 #!/bin/bash
 BASE_DIR=$(realpath "$(dirname "$0")")
 
-TSV_FILE=${2:-"${BASE_DIR}/mac.tsv"}
+TSV_FILE=${2}
 
-if [ ! -f "$TSV_FILE" ]; then
-    source "${BASE_DIR}/base.sh"
+if [ -z "$TSV_FILE" ]; then
+    source "${BASE_DIR}/lib/base.sh"
 fi
 
 cat $1 |

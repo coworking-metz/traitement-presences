@@ -1,9 +1,7 @@
-#!/bin/bash
-
 BASE_DIR=$(realpath "$(dirname "$0")")
 LOG_DIR="${BASE_DIR}/logs"
 TMP_DIR="${BASE_DIR}/tmp"
-TSV_FILE="${BASE_DIR}/mac.tsv"
+TSV_FILE="${TMP_DIR}/mac.tsv"
 PROBES_DIR="${TMP_DIR}/probes"
 MACS_PROBES_DIR="${TMP_DIR}/s3"
 

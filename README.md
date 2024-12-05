@@ -26,13 +26,14 @@ git clone https://gitlab.com/coworking-metz/traitement-presences.git
 chmod +x /opt/traitement-presences/presences.sh
 chmod +x /opt/traitement-presences/upload.sh
 chmod +x /opt/traitement-presences/reupload.sh
+chmod +x /opt/traitement-presences/reupload_period.sh
 ```
 2 On crée les liens symboliques pour les timers et les services
 ```
-ln -s /opt/traitement-presences/ticket-upload.timer /etc/systemd/system
-ln -s /opt/traitement-presences/ticket-upload.service /etc/systemd/system
-ln -s /opt/traitement-presences/ticket-flags.timer /etc/systemd/system
-ln -s /opt/traitement-presences/ticket-flags.service /etc/systemd/system
+ln -s /opt/traitement-presences/utils/ticket-upload.timer /etc/systemd/system
+ln -s /opt/traitement-presences/utils/ticket-upload.service /etc/systemd/system
+ln -s /opt/traitement-presences/utils/ticket-flags.timer /etc/systemd/system
+ln -s /opt/traitement-presences/utils/ticket-flags.service /etc/systemd/system
 ```
 3 On active les timers
 ```

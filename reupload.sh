@@ -41,7 +41,7 @@ if [ -z "$PERIOD" ]; then
     fi
 fi
 
-source "${BASE_DIR}/base.sh"
+source "${BASE_DIR}/lib/base.sh"
 
 
 MAC_DIR="${TMP_DIR}/MAC"

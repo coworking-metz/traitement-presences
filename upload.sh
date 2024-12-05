@@ -1,7 +1,7 @@
 #!/bin/bash
 
 BASE_DIR=$(realpath "$(dirname "$0")")
-source "${BASE_DIR}/base.sh"
+source "${BASE_DIR}/lib/base.sh"
 
 PROGRESS=false
 DATE=false
@@ -23,7 +23,7 @@ done
 
 DATE=${DATE:=$(date -Idate)}
 echo "Handling presences for $DATE"
-if [ -z "$JSON_CONTENT" ]; then
+if [ -z "$PROGRESS" ]; then
         echo "See progress using --progress"
 fi
 
