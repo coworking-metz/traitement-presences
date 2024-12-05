@@ -38,12 +38,12 @@ for FILE in "$FLAGS_DIR"/*; do
         RESPONSE_FILE="${FILE}.response"
 
         if [ -f "$STREAM_FILE" ]; then
-            $VERBOSE && echo "⚡Le flag $FILE est déjà en cours de traitement."
+            $VERBOSE && echo "⚡ Le flag $FILE est déjà en cours de traitement."
             continue
         fi
         
         if [ -f "$RESPONSE_FILE" ]; then
-            $VERBOSE && echo "💤 Information : Le flag $FILE a déjà été traité."
+            $VERBOSE && echo "💤 Le flag $FILE a déjà été traité."
             continue
         fi
         
