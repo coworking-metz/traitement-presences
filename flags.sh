@@ -20,6 +20,13 @@ if ! command -v jq &> /dev/null; then
     exit 1
 fi
 
+# Retenir seulement les 10 derniers fichiers par date
+$VERBOSE && echo "🔍 Suppression des anciens flags, en gardant les 10 plus récents..."
+find "$FLAGS_DIR" -type f | sort -r | tail -n +11 | while read OLD_FILE; do
+    $VERBOSE && echo " 🗑️ Suppression de $OLD_FILE"
+    rm -f "$OLD_FILE"
+done
+
 # Parcourir tous les fichiers dans le répertoire
 for FILE in "$FLAGS_DIR"/*; do
     # Vérifier si c'est un fichier
@@ -101,9 +108,3 @@ for FILE in "$FLAGS_DIR"/*; do
     fi
 done
 
-# Retenir seulement les 10 derniers fichiers par date
-$VERBOSE && echo "🔍 Suppression des anciens flags, en gardant les 10 plus récents..."
-find "$FLAGS_DIR" -type f | sort -r | tail -n +11 | while read OLD_FILE; do
-    $VERBOSE && echo " 🗑️ Suppression de $OLD_FILE"
-    rm -f "$OLD_FILE"
-done
