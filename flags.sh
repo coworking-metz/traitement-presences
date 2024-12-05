@@ -30,15 +30,13 @@ for FILE in "$FLAGS_DIR"/*; do
         STREAM_FILE="${FILE}.stream"
         RESPONSE_FILE="${FILE}.response"
 
-        # Si le fichier .stream existe, passer au fichier suivant
         if [ -f "$STREAM_FILE" ]; then
-            $VERBOSE && echo "Avertissement : Le flag $FILE est déjà en cours de traitement."
+            $VERBOSE && echo "⚡Le flag $FILE est déjà en cours de traitement."
             continue
         fi
         
-        # Si le fichier .stream existe, passer au fichier suivant
         if [ -f "$RESPONSE_FILE" ]; then
-            $VERBOSE && echo "Avertissement : Le flag $FILE a déjà été traité."
+            $VERBOSE && echo "💤 Information : Le flag $FILE a déjà été traité."
             continue
         fi
         
@@ -48,7 +46,7 @@ for FILE in "$FLAGS_DIR"/*; do
         
         # Vérifier si le fichier JSON n'est pas vide
         if [ -z "$JSON_CONTENT" ]; then
-            $VERBOSE && echo "Avertissement : Le fichier $FILE est vide ou invalide."
+            $VERBOSE && echo "❌ Le fichier $FILE est vide ou invalide."
             continue
         fi
         
@@ -56,7 +54,7 @@ for FILE in "$FLAGS_DIR"/*; do
         SLUG=$(echo "$JSON_CONTENT" | jq -r '.slug' 2>/dev/null)
 
         if [ -z "$SLUG" ] || [ "$SLUG" == "null" ]; then
-            $VERBOSE && echo "Avertissement : Le slug est vide ou invalide."
+            $VERBOSE && echo "❌ Le slug du fichier $FILE est vide ou invalide."
             continue
         fi
         
@@ -77,26 +75,35 @@ for FILE in "$FLAGS_DIR"/*; do
 
             CMD="$BASE_DIR/reupload.sh $MAC $PERIOD --purge" 
         fi
+
         if [ "$SLUG" == "presences-daterange" ]; then 
             DATE_START=$(echo "$JSON_CONTENT" | jq -r '.start' 2>/dev/null)
             DATE_END=$(echo "$JSON_CONTENT" | jq -r '.end' 2>/dev/null)
 
             CMD="$BASE_DIR/reupload_period.sh --start=$DATE_START --end=$DATE_END -y" 
-            echo $CMD
+            # echo $CMD
         fi        
+        
         if [ "$SLUG" == "presences-day" ]; then 
             CMD="$BASE_DIR/upload.sh" 
-            echo $CMD
+            # echo $CMD
         fi        
+        
         if [ -z "$CMD" ]; then
-            $VERBOSE && echo "Erreur : Commande inconnue: $SLUG."
-
+            $VERBOSE && echo "❌ Commande inconnue: $SLUG."
         else
-            echo "Traitement $SLUG"
+            echo "⏱️ Traitement $SLUG"
             $CMD >> $STREAM_FILE
             mv $STREAM_FILE $RESPONSE_FILE
 
-            echo "Traitement terminé"
+            echo "✅ Traitement terminé - Log stockée dans $RESPONSE_FILE"
         fi
     fi
+done
+
+# Retenir seulement les 10 derniers fichiers par date
+$VERBOSE && echo "🔍 Suppression des anciens flags, en gardant les 10 plus récents..."
+find "$FLAGS_DIR" -type f | sort -r | tail -n +11 | while read OLD_FILE; do
+    $VERBOSE && echo " 🗑️ Suppression de $OLD_FILE"
+    rm -f "$OLD_FILE"
 done
