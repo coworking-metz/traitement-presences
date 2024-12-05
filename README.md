@@ -1,5 +1,17 @@
 # Système de traitement des presences au Coworking metz
 
+## Utilisation
+Le scripts de ce dépot peuvent tous être appellés avec le flag `-h` ou `--help` pour avoir plus de détails sur leur utilité et leur fonctionnement.
+
+**Liste des scripts :**
+### Déclenchement manuel ou via flags
+* `presences.sh` Analyse des fichiers de logs pour calculer les présences par user 
+* `reupload_period.sh` Refaire l'analyse des présences pour une période donnée 
+* `reupload.sh` Refaire l'analyse des présences pour une adresse MAC donnée 
+### Programmés
+* `upload.sh` Faire l'analyse des présences pour une date donnée (chaque soir)
+* `flags.sh` Traitement des flags envoyés depuis `ticket-backend` (toutes les 5 secondes)
+
 ## Dépendances
 
 - ssh
@@ -46,14 +58,6 @@ systemctl start ticket-upload.timer
 systemctl start ticket-flags.timer
 ```
 
-## Citation Source
-
-
-> - `presences.sh` aggrège les données d'une journée (passée en paramètre), télécharge la correspondance adresse mac -> adresse mail/identifant depuis tickets.coworking-metz.fr/mac  et calcul pour chaque compte le "montant de présence" (0.5 ou 1 ticket). Ce script est utilisé par les deux scripts suivants.
-
-> - `upload.sh` envoie pour chaque adresse résultant de `presences.sh` le montant de présence sur tickets.coworking-metz.fr/presence et loggue une éventuelle erreur dans /var/presences/logs/YYYY-MM-DD ce script est appelé tous les soirs à 19h15. On peut utiliser `upload.sh --date=YYYY-MM-DD` pour reuploader toute une journée
-
-> - `reupload.sh` (alias la moulinette) permet de reparcourir les données pour une adresse mac donnée en paramètre et met à jour le compte correspondant. Cela permet de manuellement mettre à jour une solde si une adresse mac a été saisie trop tard sur tickets.coworking-metz.fr. Le script affiche les journées où l'adresse mac a été détectée. Exemple : `/var/presences/reupload.sh 11:22:33:44:55:66`
 
 ## Organisation
 

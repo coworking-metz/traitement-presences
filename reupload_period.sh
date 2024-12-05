@@ -12,6 +12,23 @@ ASK_USER=true
 for i in "$@"
 do
 case $i in
+    -h|--help)
+    echo "Usage: $0 [OPTIONS]"
+    echo
+    echo "Options:"
+    echo "  --start=YYYY-MM-DD      Specify the start date (required. The script" 
+    echo "                          will prompt for a value if empty)."
+    echo "  --end=YYYY-MM-DD        Specify the end date (optional, defaults to yesterday)."
+    echo "  -y, --yes               Automatically proceed without user confirmation."
+    echo "  -h, --help              Show this help message and exit."
+    echo
+    echo "Examples:"
+    echo "  $0 --start=2023-01-01"
+    echo "  $0 --start=2023-01-01 --end=2023-01-31"
+    echo "  $0 --start=2023-01-01 -y"
+    exit 0
+    ;;
+
     -y|--yes)
     ASK_USER=false
     shift # past argument=value
