@@ -16,7 +16,7 @@ sudo rm -rf ${PROBES_DIR}
 mkdir -p ${PROBES_DIR}
 mkdir -p ${MACS_PROBES_DIR}
 
-echo "Fetching all known MAC addresses from ${TICKET_BACKEND_URL}"
+echo "🖧 Fetching known MAC addresses from ${TICKET_BACKEND_URL}"
 curl -s -d "key=${TICKET_BACKEND_TOKEN}" "${TICKET_BACKEND_URL}/api/mac" | sort > "${TSV_FILE}"
 
 if [ ! -s "$TSV_FILE" ]; then
