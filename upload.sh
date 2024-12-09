@@ -4,7 +4,7 @@ BASE_DIR=$(realpath "$(dirname "$0")")
 source "${BASE_DIR}/lib/base.sh"
 
 PROGRESS=false
-DATE=false
+DATE=$(date -Idate)
 
 # Parse command line arguments for start and end dates
 for i in "$@"
