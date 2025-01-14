@@ -108,6 +108,10 @@ cd ${MAC_DIR}
 NB_PRESENCES=0
 for PROBE in *; do
     DATE=$(basename "$PROBE")
+    
+    echo "🖧 Fetching known MAC addresses from ${TICKET_BACKEND_URL} for ${DATE}"
+    curl -s -d "key=${TICKET_BACKEND_TOKEN}&date=${DATE}" "${TICKET_BACKEND_URL}/api/mac" | sort > "${TSV_FILE}"
+
     PRESENCE=$(${BASE_DIR}/presences.sh "${MAC_DIR}/${PROBE}" "${TSV_FILE}")
     EMAIL=$(echo $PRESENCE | cut -d' ' -f1)
     AMOUNT=$(echo $PRESENCE | cut -d' ' -f2)
