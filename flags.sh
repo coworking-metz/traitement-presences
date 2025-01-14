@@ -44,7 +44,7 @@ if ! command -v jq &> /dev/null; then
 fi
 
 # Retain only the 50 most recent files by date
-$VERBOSE && echo "🗑️ Deleting old flags"
+# $VERBOSE && echo "🗑️ Deleting old flags"
 find "$FLAGS_DIR" -type f | sort -r | tail -n +51 | while read OLD_FILE; do
     rm -f "$OLD_FILE"
 done
@@ -102,6 +102,7 @@ for FILE in "$FLAGS_DIR"/*; do
             $VERBOSE && echo "❌ Unknown command: $SLUG."
         else
             echo "⏱️ Processing $SLUG"
+            echo $CMD
             $CMD >> "$STREAM_FILE"
             mv "$STREAM_FILE" "$RESPONSE_FILE"
 
