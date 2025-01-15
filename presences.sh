@@ -15,7 +15,7 @@ case $i in
     echo
     echo "Arguments:"
     echo "  <INPUT_FILE>         The file containing raw data to process (required)."
-    echo "  <TSV_FILE>           The file containing mapping of MAC addresses to names (required)."
+    echo "  [TSV_FILE]           The file containing mapping of MAC addresses to names (optional)."
     echo
     echo "Options:"
     echo "  -h, --help           Show this help message and exit."
@@ -28,6 +28,9 @@ case $i in
 esac
 done
 
+if [ -z "$TSV_FILE" ]; then
+    source "${BASE_DIR}/lib/base.sh"
+fi
 
 cat $1 |
     grep "T08\|T09\|T10\|T11\|T12\|T13\|T14\|T15\|T16\|T17\|T18\|T19\|T20\|T21" | # remove early morning and evening

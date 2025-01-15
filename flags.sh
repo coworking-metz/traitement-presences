@@ -102,7 +102,6 @@ for FILE in "$FLAGS_DIR"/*; do
             $VERBOSE && echo "❌ Unknown command: $SLUG."
         else
             echo "⏱️ Processing $SLUG"
-            echo $CMD
             $CMD >> "$STREAM_FILE"
             mv "$STREAM_FILE" "$RESPONSE_FILE"
 
