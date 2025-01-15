@@ -87,7 +87,6 @@ for item in *; do
     if [ -d "$item" ]; then
         LOCATION="$item"
         echo "🔍 Looking for presences in location '$LOCATION'"
-        
         for PROBE in $(grep -rl "${MAC}" ${MACS_PROBES_DIR}/${LOCATION}/ | grep "$PERIOD")
         do
             DATE=$(basename "$PROBE")
