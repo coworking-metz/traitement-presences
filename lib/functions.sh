@@ -3,7 +3,7 @@ process_presences_mac() {
     local json_content=$1
     MAC=$(echo "$json_content" | jq -r '.mac' 2>/dev/null)
     PERIOD=$(echo "$json_content" | jq -r '.period' 2>/dev/null)
-    echo "$BASE_DIR/reupload.sh $MAC $PERIOD --purge"
+    echo "$BASE_DIR/reupload.sh --mac=$MAC --period=$PERIOD --purge"
 }
 
 # Fonction pour gérer le slug presences-daterange
